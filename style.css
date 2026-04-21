@@ -1,0 +1,489 @@
+/* ===== GENERAL ===== */
+body {
+    font-family: sans-serif;
+    font-size: 14px;
+    background: linear-gradient(135deg, #a892cc, #c4a8c8, #e0b8c0);
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    background: white;
+    padding: 12px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar .logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1a1a2e;
+    text-decoration: none;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #444;
+    margin-left: 20px;
+    font-size: 14px;
+}
+
+.navbar a:hover {
+    color: #6a4faa;
+}
+
+.navbar .btn-nav {
+    background: #7a5fbb;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.navbar .btn-nav:hover {
+    background: #6a4faa;
+    color: white;
+}
+
+/* ===== CARD / FORM WRAPPER ===== */
+.wrapper {
+    width: 400px;
+    background: white;
+    border-radius: 16px;
+    padding: 36px;
+    margin: 60px auto;
+    box-shadow: 0 10px 40px rgba(60, 40, 100, 0.2);
+}
+
+/* ===== FORM FIELDS ===== */
+.wrapper h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #1a1a2e;
+    font-size: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    margin-bottom: 4px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #9b7fd4;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+    height: 120px;
+}
+
+.help-block {
+    color: red;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+    background: #7a5fbb;
+    color: white;
+    border: none;
+    padding: 11px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.btn-primary:hover {
+    background: #6a4faa;
+}
+
+.btn-default {
+    background: #ddd;
+    color: #333;
+    border: none;
+    padding: 11px;
+    width: 100%;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.btn-default:hover {
+    background: #ccc;
+}
+
+/* ===== AVATAR (login page) ===== */
+.avatar-wrap {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.avatar-wrap img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid #9b7fd4;
+    background: #d9d0ec;
+}
+
+/* ===== LINKS ===== */
+.link-text {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #555;
+}
+
+.link-text a {
+    color: #1a1a2e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-text a:hover {
+    text-decoration: underline;
+}
+
+.forgot-link {
+    display: block;
+    text-align: right;
+    font-size: 12px;
+    color: #666;
+    text-decoration: none;
+    margin-bottom: 14px;
+}
+
+.forgot-link:hover {
+    color: #7a5fbb;
+}
+
+/* ===== ALERT MESSAGES ===== */
+.alert-danger {
+    background: #fde8e8;
+    border-left: 4px solid #e74c3c;
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: #c0392b;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.alert-success {
+    background: #e8f5e9;
+    border-left: 4px solid #2ecc71;
+    padding: 10px 14px;
+    border-radius: 6px;
+    color: #1e8449;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+/* ===== HOMEPAGE HERO ===== */
+.hero {
+    background: #1a1030;
+    color: white;
+    padding: 60px 40px;
+    text-align: left;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-bottom: 24px;
+    max-width: 460px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.btn-hero {
+    background: #7a5fbb;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-hero:hover {
+    background: #6a4faa;
+    color: white;
+}
+
+.btn-hero-outline {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.btn-hero-outline:hover {
+    opacity: 1;
+    color: white;
+}
+
+/* ===== GENRE ROWS ===== */
+.genre-row {
+    margin-bottom: 36px;
+}
+
+.genre-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1a1a2e;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-left: 4px solid #7a5fbb;
+    padding-left: 10px;
+}
+
+/* ===== SONG BROWSING SECTION ===== */
+.section {
+    padding: 36px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 22px;
+    color: #1a1a2e;
+}
+
+.section-header a {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+}
+
+.section-header a:hover {
+    color: #7a5fbb;
+}
+
+/* Song grid */
+.song-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.song-card {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    display: block;
+    background: #333;
+    aspect-ratio: 4/3;
+}
+
+.song-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.song-card:hover img {
+    opacity: 0.8;
+}
+
+.song-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+}
+
+.song-card-info {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    color: white;
+}
+
+.song-card-genre {
+    font-size: 11px;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 2px;
+    letter-spacing: 0.05em;
+}
+
+.song-card-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.song-card-artist {
+    font-size: 12px;
+    opacity: 0.75;
+    margin-top: 2px;
+}
+
+/* ===== CTA BANNER ===== */
+.cta-banner {
+    background: #7a5fbb;
+    border-radius: 14px;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 40px 40px;
+}
+
+.cta-banner h3 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.cta-banner p {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+}
+
+.btn-cta {
+    background: white;
+    color: #7a5fbb;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn-cta:hover {
+    background: #f0ebfa;
+    color: #6a4faa;
+}
+
+/* ===== STAR RATING ===== */
+.stars-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc;
+    padding: 0;
+    line-height: 1;
+}
+
+.star-btn.filled {
+    color: #1a1a2e;
+}
+
+.rating-count {
+    font-size: 13px;
+    color: #888;
+    margin-left: 6px;
+}
+
+/* ===== SELECTED SONG TAG ===== */
+.song-tag {
+    background: #f0ebfa;
+    border: 1.5px solid #c8b4e8;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #5a3fa0;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.song-tag a {
+    font-size: 12px;
+    color: #888;
+    text-decoration: underline;
+}
+
+/* ===== SUCCESS PAGE ===== */
+.success-box {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.success-box .icon {
+    font-size: 48px;
+    margin-bottom: 14px;
+}
+
+.success-box h3 {
+    font-size: 20px;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+}
+
+.success-box p {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: #1a1a2e;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 16px;
+    font-size: 12px;
+}
+
+footer span {
+    color: #9b7fd4;
+}
