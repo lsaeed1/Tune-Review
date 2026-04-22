@@ -168,7 +168,7 @@ mysqli_close($link);
     </div>
 
     <div class="section" style="max-width: 800px; margin: 0 auto; padding-top: 40px;">
-        <h2>My Personal Reviews</h2>
+        <h2>My Reviews</h2>
         <p>A collection of all the thoughts and ratings you've shared.</p>
 
         <?php if (!empty($delete_success)): ?>
