@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_add'])) {
 
     $title = trim($_POST['title']);
     $artist = trim($_POST['artist']);
-    $genre = trim($_POST['genre']);
+    $genre = isset($_POST['genre']) ? trim($_POST['genre']) : "";
     $cover_url = trim($_POST['cover_url']);
 
     // Insert into database
@@ -83,14 +83,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search_api'])) {
                 $preview_data = [
                     'title' => $data['track']['name'],
                     'artist' => $data['track']['artist']['name'],
-                    'genre' => 'Unknown',
+                    'genre' => '',
                     'cover_image' => ''
                 ];
-
-                // Grab the top tag for the genre
-                if (!empty($data['track']['toptags']['tag'])) {
-                    $preview_data['genre'] = ucfirst($data['track']['toptags']['tag'][0]['name']);
-                }
 
                 // Grab the 'extralarge' image for the cover
                 if (isset($data['track']['album']['image'][3]['#text'])) {
@@ -178,12 +173,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search_api'])) {
                 <?php endif; ?>
 
                 <h3><?php echo htmlspecialchars($preview_data['title']); ?></h3>
-                <p><?php echo htmlspecialchars($preview_data['artist']); ?> • <?php echo htmlspecialchars($preview_data['genre']); ?></p>
+                <p><?php echo htmlspecialchars($preview_data['artist']); ?></p>
 
                 <form action="addSong.php" method="POST">
                     <input type="hidden" name="title" value="<?php echo htmlspecialchars($preview_data['title']); ?>">
                     <input type="hidden" name="artist" value="<?php echo htmlspecialchars($preview_data['artist']); ?>">
-                    <input type="hidden" name="genre" value="<?php echo htmlspecialchars($preview_data['genre']); ?>">
                     <input type="hidden" name="cover_url" value="<?php echo htmlspecialchars($preview_data['cover_image']); ?>">
                     <input type="hidden" name="confirm_add" value="1">
 
