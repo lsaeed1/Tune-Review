@@ -161,8 +161,7 @@ mysqli_close($link);
         <a href="index.php" class="logo">TUNE REVIEW</a>
         <div>
             <a href="index.php">Home</a>
-            <a href="my_reviews.php" class="btn-nav" style="background:#9b7fd4;">My Reviews</a>
-            <a href="addSong.php" class="btn-nav">Write a Review</a>
+            <a href="addSong.php" class="btn-nav">Browse Songs</a>
             <a href="logout.php" style="color:#e74c3c;">Logout</a>
         </div>
     </div>
