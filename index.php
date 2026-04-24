@@ -58,10 +58,7 @@ $songs = [
         <a href="index.php" class="logo">TUNE REVIEW</a>
         <div>
             <a href="index.php">Home</a>
-
-            <a href="myReviews.php" class="btn-nav" style="background:#9b7fd4;">My Reviews</a>
-
-            <a href="addSong.php" class="btn-nav">Write a Review</a>
+            <a href="addSong.php" class="btn-nav">Browse Songs</a>
             <a href="logout.php" style="color:#e74c3c;">Logout</a>
         </div>
     </div>
@@ -72,7 +69,6 @@ $songs = [
         <p>Discover, rate, and discuss your favorite music with expert and community reviews.</p>
         <div class="hero-btns">
             <a href="#songs" class="btn-hero">Explore Now</a>
-            <a href="#songs" class="btn-hero-outline">Browse Songs</a>
         </div>
     </div>
 
@@ -97,7 +93,7 @@ $songs = [
                 <h3 class="genre-label"><?php echo $genre; ?></h3>
                 <div class="song-grid">
                     <?php foreach ($genre_songs as $song): ?>
-                        <a href="review.php?song_id=<?php echo $song['id']; ?>&song_title=<?php echo urlencode($song['title']); ?>&artist=<?php echo urlencode($song['artist']); ?>" class="song-card">
+                        <a href="viewSong.php?id=<?php echo $song['id']; ?>" class="song-card">
                             <img src="<?php echo $song['img']; ?>" alt="<?php echo $song['title']; ?>">
                             <div class="song-card-overlay"></div>
                             <div class="song-card-info">
@@ -119,7 +115,7 @@ $songs = [
             <h3>Share Your Thoughts on Music</h3>
             <p>Write a review for any song and help the community discover great music.</p>
         </div>
-        <a href="addSong.php" class="btn-cta">Write a Review</a>
+        <a href="addSong.php" class="btn-cta">Browse Songs</a>
     </div>
 
     <!-- Footer -->
