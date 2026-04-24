@@ -97,8 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="index.php" class="logo">TUNE REVIEW</a>
         <div>
             <a href="index.php">Home</a>
-            <a href="index.php#songs">Albums</a>
-            <a href="addSong.php" class="btn-nav" style="background: #9b7fd4;">Write a Review</a>
+            <a href="addSong.php" class="btn-nav">Browse Songs</a>
             <a href="logout.php" style="color:#e74c3c;">Logout</a>
         </div>
     </div>
