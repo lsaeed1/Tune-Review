@@ -158,12 +158,12 @@ mysqli_close($link);
 <body>
 
     <div class="navbar">
-        <a href="index.php" class="logo">TUNE REVIEW</a>
+        <a href="index.php" class="logo">
+            <img src="tune_review_logo_2.png" alt="Tune Review Logo">
+        </a>
         <div>
-            <a href="index.php">Home</a>
-            <a href="my_reviews.php" class="btn-nav" style="background:#9b7fd4;">My Reviews</a>
-            <a href="addSong.php" class="btn-nav">Write a Review</a>
-            <a href="logout.php" style="color:#e74c3c;">Logout</a>
+            <a href="myReviews.php" class="btn-nav nav-my-reviews">My Reviews</a>
+            <a href="logout.php" class="nav-logout">Logout</a>
         </div>
     </div>
 

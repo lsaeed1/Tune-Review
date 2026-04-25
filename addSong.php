@@ -26,28 +26,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm_add'])) {
     $genre = isset($_POST['genre']) ? trim($_POST['genre']) : "";
     $cover_url = trim($_POST['cover_url']);
 
-    // Insert into database
-    $sql = "INSERT INTO songs (title, artist, genre, cover_image_url) VALUES (?, ?, ?, ?)";
+    $saved = false;
 
-    if ($stmt = mysqli_prepare($link, $sql)) {
-        mysqli_stmt_bind_param($stmt, "ssss", $param_title, $param_artist, $param_genre, $param_cover);
-
-        $param_title = $title;
-        $param_artist = $artist;
-        $param_genre = $genre;
-        $param_cover = $cover_url;
-
-        if (mysqli_stmt_execute($stmt)) {
-            // Grab the ID of the song we just inserted
-            $new_song_id = mysqli_insert_id($link);
-
-            // Redirect straight to the review page with this song pre-selected
-            header("location: review.php?song_id=" . $new_song_id . "&song_title=" . urlencode($title) . "&artist=" . urlencode($artist));
-            exit;
-        } else {
-            $db_error = "Oops! Something went wrong saving to the database.";
+    // Try the most complete insert first, then gracefully fall back for older schemas.
+    try {
+        $sql = "INSERT INTO songs (title, artist, genre, cover_image_url) VALUES (?, ?, ?, ?)";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ssss", $title, $artist, $genre, $cover_url);
+            $saved = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
         }
-        mysqli_stmt_close($stmt);
+    } catch (mysqli_sql_exception $e) {
+        $saved = false;
+    }
+
+    if (!$saved) {
+        try {
+            $sql = "INSERT INTO songs (title, artist, cover_image_url) VALUES (?, ?, ?)";
+            if ($stmt = mysqli_prepare($link, $sql)) {
+                mysqli_stmt_bind_param($stmt, "sss", $title, $artist, $cover_url);
+                $saved = mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+            }
+        } catch (mysqli_sql_exception $e) {
+            $saved = false;
+        }
+    }
+
+    if (!$saved) {
+        try {
+            $sql = "INSERT INTO songs (title, artist, cover_url) VALUES (?, ?, ?)";
+            if ($stmt = mysqli_prepare($link, $sql)) {
+                mysqli_stmt_bind_param($stmt, "sss", $title, $artist, $cover_url);
+                $saved = mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+            }
+        } catch (mysqli_sql_exception $e) {
+            $saved = false;
+        }
+    }
+
+    if (!$saved) {
+        try {
+            $sql = "INSERT INTO songs (title, artist) VALUES (?, ?)";
+            if ($stmt = mysqli_prepare($link, $sql)) {
+                mysqli_stmt_bind_param($stmt, "ss", $title, $artist);
+                $saved = mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+            }
+        } catch (mysqli_sql_exception $e) {
+            $saved = false;
+        }
+    }
+
+    if ($saved) {
+        // Grab the ID of the song we just inserted
+        $new_song_id = mysqli_insert_id($link);
+
+        // Redirect straight to the review page with this song pre-selected
+        header("location: review.php?song_id=" . $new_song_id . "&song_title=" . urlencode($title) . "&artist=" . urlencode($artist));
+        exit;
+    } else {
+        $db_error = "Oops! Something went wrong saving to the database. Please check the songs table schema.";
     }
 }
 
@@ -138,12 +178,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['search_api'])) {
 <body>
 
     <div class="navbar">
-        <a href="index.php" class="logo">TUNE REVIEW</a>
+        <a href="index.php" class="logo">
+            <img src="tune_review_logo_2.png" alt="Tune Review Logo">
+        </a>
         <div>
-            <a href="index.php">Home</a>
-            <a href="index.php#songs">Albums</a>
-            <a href="addSong.php" class="btn-nav" style="background:#6a4faa;">Write a Review</a>
-            <a href="logout.php" style="color:#e74c3c;">Logout</a>
+            <a href="myReviews.php" class="btn-nav nav-my-reviews">My Reviews</a>
+            <a href="logout.php" class="nav-logout">Logout</a>
         </div>
     </div>
 

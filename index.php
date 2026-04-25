@@ -55,14 +55,12 @@ $songs = [
 
     <!-- Navbar -->
     <div class="navbar">
-        <a href="index.php" class="logo">TUNE REVIEW</a>
+        <a href="index.php" class="logo">
+            <img src="tune_review_logo_2.png" alt="Tune Review Logo">
+        </a>
         <div>
-            <a href="index.php">Home</a>
-
-            <a href="myReviews.php" class="btn-nav" style="background:#9b7fd4;">My Reviews</a>
-
-            <a href="addSong.php" class="btn-nav">Write a Review</a>
-            <a href="logout.php" style="color:#e74c3c;">Logout</a>
+            <a href="myReviews.php" class="btn-nav nav-my-reviews">My Reviews</a>
+            <a href="logout.php" class="nav-logout">Logout</a>
         </div>
     </div>
 
@@ -71,8 +69,8 @@ $songs = [
         <h1>Homepage</h1>
         <p>Discover, rate, and discuss your favorite music with expert and community reviews.</p>
         <div class="hero-btns">
-            <a href="#songs" class="btn-hero">Explore Now</a>
-            <a href="#songs" class="btn-hero-outline">Browse Songs</a>
+            <a href="viewAllReviews.php" class="btn-hero">See Community Reviews</a>
+            <a href="addSong.php" class="btn-hero">Write a Review</a>
         </div>
     </div>
 
@@ -80,7 +78,6 @@ $songs = [
     <div class="section" id="songs">
         <div class="section-header">
             <h2>Song Browsing</h2>
-            <a href="#">View All</a>
         </div>
 
         <?php
@@ -121,11 +118,6 @@ $songs = [
         </div>
         <a href="addSong.php" class="btn-cta">Write a Review</a>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 <span>TuneReview</span> — All rights reserved.
-    </footer>
 
 </body>
 

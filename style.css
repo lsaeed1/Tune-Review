@@ -11,9 +11,11 @@ body {
 .navbar {
     background: white;
     padding: 12px 30px;
+    min-height: 120px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
     border-bottom: 1px solid #ddd;
 }
 
@@ -22,6 +24,32 @@ body {
     font-weight: bold;
     color: #1a1a2e;
     text-decoration: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.navbar > div {
+    margin-left: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.navbar .logo img {
+    height: 96px;
+    width: auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        min-height: 92px;
+    }
+
+    .navbar .logo img {
+        height: 72px;
+    }
 }
 
 .navbar a {
@@ -41,6 +69,22 @@ body {
     padding: 8px 18px;
     border-radius: 8px;
     font-weight: bold;
+}
+
+.navbar .nav-my-reviews {
+    background: #9b7fd4;
+    padding: 10px 22px;
+    font-size: 16px;
+}
+
+.navbar .nav-logout {
+    color: #e74c3c;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.navbar .nav-logout:hover {
+    color: #c0392b;
 }
 
 .navbar .btn-nav:hover {
@@ -236,11 +280,11 @@ textarea {
 .btn-hero {
     background: #7a5fbb;
     color: white;
-    padding: 10px 24px;
+    padding: 12px 28px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .btn-hero:hover {

@@ -11,6 +11,105 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 // Include config file
 require_once "config.php";
 
+// Resolve a reliable songs.id for reviews by matching title/artist first,
+// then falling back to creating the song if it does not exist yet.
+function resolve_song_id($link, $incoming_song_id, $song_title, $artist)
+{
+    $song_title = trim($song_title);
+    $artist = trim($artist);
+
+    if ($song_title === '') {
+        return 0;
+    }
+
+    // 1) Prefer exact title/artist match so IDs stay consistent with song metadata.
+    try {
+        $sql = "SELECT id FROM songs WHERE title = ? AND artist = ? LIMIT 1";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ss", $song_title, $artist);
+            if (mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+                $row = mysqli_fetch_assoc($result);
+                mysqli_stmt_close($stmt);
+                if ($row && isset($row['id'])) {
+                    return (int)$row['id'];
+                }
+            } else {
+                mysqli_stmt_close($stmt);
+            }
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Continue to fallback options.
+    }
+
+    // 2) If caller passed a valid existing ID, allow that.
+    if ($incoming_song_id > 0) {
+        try {
+            $sql = "SELECT id FROM songs WHERE id = ? LIMIT 1";
+            if ($stmt = mysqli_prepare($link, $sql)) {
+                mysqli_stmt_bind_param($stmt, "i", $incoming_song_id);
+                if (mysqli_stmt_execute($stmt)) {
+                    $result = mysqli_stmt_get_result($stmt);
+                    $row = mysqli_fetch_assoc($result);
+                    mysqli_stmt_close($stmt);
+                    if ($row && isset($row['id'])) {
+                        return (int)$row['id'];
+                    }
+                } else {
+                    mysqli_stmt_close($stmt);
+                }
+            }
+        } catch (mysqli_sql_exception $e) {
+            // Continue to create fallback.
+        }
+    }
+
+    // 3) Create the song row (schema-safe fallbacks).
+    try {
+        $sql = "INSERT INTO songs (title, artist, cover_image_url) VALUES (?, ?, '')";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ss", $song_title, $artist);
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+                return (int)mysqli_insert_id($link);
+            }
+            mysqli_stmt_close($stmt);
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Continue to next fallback.
+    }
+
+    try {
+        $sql = "INSERT INTO songs (title, artist, cover_url) VALUES (?, ?, '')";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ss", $song_title, $artist);
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+                return (int)mysqli_insert_id($link);
+            }
+            mysqli_stmt_close($stmt);
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Continue to next fallback.
+    }
+
+    try {
+        $sql = "INSERT INTO songs (title, artist) VALUES (?, ?)";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ss", $song_title, $artist);
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_close($stmt);
+                return (int)mysqli_insert_id($link);
+            }
+            mysqli_stmt_close($stmt);
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Fall through.
+    }
+
+    return 0;
+}
+
 // Get song details passed from homepage (if any)
 $song_id    = isset($_GET['song_id'])    ? (int)$_GET['song_id']              : 0;
 $song_title = isset($_GET['song_title']) ? trim($_GET['song_title'])           : '';
@@ -29,8 +128,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $song_title = isset($_POST['song_title']) ? trim($_POST['song_title']) : $song_title;
     $artist = isset($_POST['artist']) ? trim($_POST['artist']) : $artist;
 
-    // Song must already be selected before reaching this page.
-    $selected_song_id = isset($_POST['song_id']) ? (int)$_POST['song_id'] : 0;
+    // Normalize incoming song reference to a reliable songs.id.
+    $incoming_song_id = isset($_POST['song_id']) ? (int)$_POST['song_id'] : 0;
+    $selected_song_id = resolve_song_id($link, $incoming_song_id, $song_title, $artist);
     if ($selected_song_id <= 0 || $song_title === '') {
         header("location: addSong.php");
         exit;
@@ -69,15 +169,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             mysqli_stmt_close($stmt);
         }
     }
-
-    mysqli_close($link);
 } else {
-    // Direct access without a song should go to the add-song flow.
-    if ($selected_song_id <= 0 || $song_title === '') {
+    // Direct access without song metadata should go to the add-song flow.
+    if ($song_title === '') {
+        header("location: addSong.php");
+        exit;
+    }
+
+    // Normalize to a valid songs.id for any review entered from this page.
+    $selected_song_id = resolve_song_id($link, $selected_song_id, $song_title, $artist);
+    if ($selected_song_id <= 0) {
         header("location: addSong.php");
         exit;
     }
 }
+
+mysqli_close($link);
 ?>
 
 <!DOCTYPE html>
@@ -94,12 +201,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <!-- Navbar -->
     <div class="navbar">
-        <a href="index.php" class="logo">TUNE REVIEW</a>
+        <a href="index.php" class="logo">
+            <img src="tune_review_logo_2.png" alt="Tune Review Logo">
+        </a>
         <div>
-            <a href="index.php">Home</a>
-            <a href="index.php#songs">Albums</a>
-            <a href="addSong.php" class="btn-nav" style="background: #9b7fd4;">Write a Review</a>
-            <a href="logout.php" style="color:#e74c3c;">Logout</a>
+            <a href="myReviews.php" class="btn-nav nav-my-reviews">My Reviews</a>
+            <a href="logout.php" class="nav-logout">Logout</a>
         </div>
     </div>
 
@@ -151,11 +258,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
 
     </div>
-
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 <span>TuneReview</span> — All rights reserved.
-    </footer>
 
     <script>
         function setRating(val) {
